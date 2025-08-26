@@ -1,0 +1,35 @@
+<?php
+session_start();
+if (!isset($_SESSION["usuario"])) {
+    header("Location: index.php");
+    exit;
+}
+$user = $_SESSION["usuario"];
+?>
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <title>CDR - Home</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="dashboard">
+        <div class="dashboard-header">
+            <div class="user-info">
+                <div class="user-avatar"><?= strtoupper(substr($user["nome"],0,1)) ?></div>
+                <div class="user-details">
+                    <h3><?= $user["nome"] ?></h3>
+                    <p><?= $user["email"] ?></p>
+                </div>
+            </div>
+            <a href="logout.php"><button class="logout-btn">Sair</button></a>
+        </div>
+
+        <div class="dashboard-content">
+            <h2>Bem-vindo(a), <?= $user["nome"] ?>!</h2>
+            <p>Aqui você terá acesso ao conteúdo exclusivo 🎉</p>
+        </div>
+    </div>
+</body>
+</html>
