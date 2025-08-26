@@ -1,0 +1,52 @@
+<?php
+include("conexao.php");
+
+$msg = "";
+
+if ($_SERVER["REQUEST_METHOD"] == "POST") {
+    $nome  = $_POST["nome"];
+    $email = $_POST["email"];
+    $senha = password_hash($_POST["senha"], PASSWORD_DEFAULT);
+    $data  = $_POST["data_nasc"];
+    $genero = $_POST["genero"];
+
+    $sql = "INSERT INTO usuarios (nome,email,senha,data_nasc,genero) 
+            VALUES ('$nome','$email','$senha','$data','$genero')";
+
+    if ($conn->query($sql) === TRUE) {
+        header("Location: index.php");
+        exit;
+    } else {
+        $msg = "Erro: " . $conn->error;
+    }
+}
+?>
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <title>CDR - Cadastro</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="form-container">
+        <h2>Criar conta</h2>
+        <?php if ($msg): ?>
+            <div class="error-message"><?= $msg ?></div>
+        <?php endif; ?>
+        <form method="POST" action="">
+            <input type="text" name="nome" placeholder="Nome completo" required><br>
+            <input type="email" name="email" placeholder="E-mail" required><br>
+            <input type="password" name="senha" placeholder="Senha" required><br>
+            <input type="date" name="data_nasc" required><br>
+            <select name="genero" required>
+                <option value="">Selecione</option>
+                <option value="masculino">Masculino</option>
+                <option value="feminino">Feminino</option>
+                <option value="outro">Outro</option>
+            </select><br>
+            <button type="submit" class="btn btn-primary">Cadastrar</button>
+        </form>
+    </div>
+</body>
+</html>
