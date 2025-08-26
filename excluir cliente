@@ -1,0 +1,24 @@
+<?php
+include "conexao.php";
+
+$id = $_GET["id"];
+$cliente = $conn->query("SELECT * FROM clientes WHERE id = $id")->fetch_assoc();
+
+if ($_SERVER["REQUEST_METHOD"] == "POST") {
+    $nome = $_POST["nome"];
+    $email = $_POST["email"];
+    $telefone = $_POST["telefone"];
+
+    $conn->query("UPDATE clientes SET nome='$nome', email='$email', telefone='$telefone' WHERE id=$id");
+    header("Location: index.php");
+}
+?>
+
+<h2>Editar Cliente</h2>
+<form method="POST">
+    Nome: <input type="text" name="nome" value="<?= $cliente['nome'] ?>" required><br>
+    Email: <input type="email" name="email" value="<?= $cliente['email'] ?>"><br>
+    Telefone: <input type="text" name="telefone" value="<?= $cliente['telefone'] ?>"><br>
+    <input type="submit" value="Atualizar">
+</form>
+<a href="index.php">Voltar</a>
